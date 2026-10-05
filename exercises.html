@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بيرفكت جيم - جدول التمارين وحاسبة السعرات</title>
+    <!-- استيراد الخطوط والأيقونات -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+        }
+        body {
+            background-color: #1e293b; /* لون سكني داكن وفاخر */
+            color: #f1f5f9;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        /* الهيدر مع صورة خلفية لأبطال الجيم وتأثير تغطية */
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            background: linear-gradient(rgba(30, 41, 59, 0.85), rgba(30, 41, 59, 0.85)), url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            padding: 40px 20px;
+            border-radius: 16px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+            border-top: 5px solid #38bdf8;
+        }
+        .date-display {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: #38bdf8;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+        header h1 {
+            color: #ffffff;
+            font-size: 2.5rem;
+            margin-bottom: 5px;
+        }
+        header h1 span {
+            color: #38bdf8;
+        }
+        header p {
+            color: #cbd5e1;
+            font-size: 1.1rem;
+        }
+
+        /* قسم حاسبة السعرات الحرارية */
+        .calculator-section {
+            background-color: #334155;
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 35px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            border-right: 5px solid #38bdf8;
+        }
+        .calculator-section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #38bdf8;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .calc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+        .input-group label {
+            font-size: 0.9rem;
+            color: #cbd5e1;
+            margin-bottom: 5px;
+        }
+        .input-group input, .input-group select {
+            background-color: #475569;
+            border: 1px solid #64748b;
+            color: #fff;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+        }
+        .input-group input:focus, .input-group select:focus {
+            border-color: #38bdf8;
+        }
+        .calc-btn {
+            background-color: #0284c7;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            width: 100%;
+        }
+        .calc-btn:hover {
+            background-color: #0369a1;
+        }
+        .result-box {
+            margin-top: 20px;
+            background: #1e293b;
+            padding: 20px;
+            border-radius: 12px;
+            display: none;
+            text-align: center;
+        }
+        .result-box h3 {
+            color: #38bdf8;
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+        .result-box p {
+            font-size: 1rem;
+            color: #cbd5e1;
+            margin-bottom: 5px;
+        }
+        .save-result-btn {
+            margin-top: 15px;
+            background-color: #10b981;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        .save-result-btn:hover {
+            background-color: #059669;
+        }
+
+        /* قسم جدول التمارين الأسبوعي */
+        .schedule-section {
+            background-color: #334155;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 35px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+        .schedule-section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #38bdf8;
+            border-right: 4px solid #38bdf8;
+            padding-right: 10px;
+        }
+        .schedule-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        .schedule-card {
+            background: #475569;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .schedule-card h4 {
+            color: #f8fafc;
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+        }
+        .schedule-card p {
+            color: #cbd5e1;
+            font-size: 0.9rem;
+        }
+
+        /* شبكة التمارين والشرح مع الصور المخصصة لكل تمرين */
+        .section-title {
+            font-size: 1.6rem;
+            margin-bottom: 20px;
+            color: #cbd5e1;
+            border-bottom: 2px solid #475569;
+            padding-bottom: 8px;
+        }
+        .exercises-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .exercise-card {
+            background-color: #334155;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-right: 5px solid #64748b;
+        }
+        .exercise-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+            border-right-color: #38bdf8;
+        }
+        .card-img-container {
+            width: 100%;
+            height: 160px;
+            overflow: hidden;
+            position: relative;
+        }
+        .card-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .exercise-card:hover .card-img-container img {
+            transform: scale(1.1);
+        }
+        .card-content {
+            padding: 20px;
+        }
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .card-header i {
+            font-size: 1.4rem;
+            color: #f8fafc;
+            background-color: #475569;
+            padding: 10px;
+            border-radius: 50%;
+            margin-left: 12px;
+        }
+        .card-title h3 {
+            font-size: 1.15rem;
+            color: #ffffff;
+        }
+        .card-title span {
+            font-size: 0.85rem;
+            color: #94a3b8;
+        }
+        .exercise-body p {
+            font-size: 0.95rem;
+            color: #cbd5e1;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        .exercise-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #475569;
+            padding-top: 10px;
+            font-size: 0.85rem;
+            color: #94a3b8;
+        }
+        .badge {
+            background-color: #475569;
+            color: #f1f5f9;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+    </style>
+    <!-- مكتبة html2canvas لتحويل النتائج إلى صورة لحفظها في المعرض -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+
+    <div class="container">
+        <!-- الهيدر مع اسم بيرفكت جيم وتاريخ اليوم -->
+        <header>
+            <div class="date-display" id="current-date">جاري تحميل التاريخ...</div>
+            <h1>مرحباً بك في <span>بيرفكت جيم</span></h1>
+            <p>طريقك نحو القوة، اللياقة البدنية، وبناء الأجسام باحترافية</p>
+        </header>
+
+        <!-- حاسبة السعرات الحرارية -->
+        <div class="calculator-section">
+            <h2><i class="fa-solid fa-calculator"></i> حاسبة السعرات الحرارية اليومية (TDEE)</h2>
+            <div class="calc-grid">
+                <div class="input-group">
+                    <label>الوزن (كجم)</label>
+                    <input type="number" id="weight" placeholder="مثال: 75">
+                </div>
+                <div class="input-group">
+                    <label>الطول (سم)</label>
+                    <input type="number" id="height" placeholder="مثال: 175">
+                </div>
+                <div class="input-group">
+                    <label>العمر (سنة)</label>
+                    <input type="number" id="age" placeholder="مثال: 25">
+                </div>
+                <div class="input-group">
+                    <label>مستوى النشاط البدني</label>
+                    <select id="activity">
+                        <option value="1.2">قليل الحركة (بدون تمارين)</option>
+                        <option value="1.375">خفيف النشاط (تمارين خفيفة 1-3 أيام)</option>
+                        <option value="1.55" selected>متوسط النشاط (تمارين 3-5 أيام)</option>
+                        <option value="1.725">نشيط جداً (تمارين شاقة 6-7 أيام)</option>
+                    </select>
+                </div>
+            </div>
+            <button class="calc-btn" onclick="calculateCalories()">احسب السعرات الحرارية</button>
+
+            <!-- صندوق النتيجة مع زر الحفظ للمعرض -->
+            <div class="result-box" id="resultBox">
+                <h3>نتائج حساب السعرات الحرارية - بيرفكت جيم</h3>
+                <p id="maintenanceCalories">السعرات للحفاظ على الوزن: --</p>
+                <p id="lossCalories">السعرات للتخسيس (تنشيف): --</p>
+                <p id="gainCalories">السعرات لزيادة الوزن (تضخم): --</p>
+                <button class="save-result-btn" onclick="saveResultAsImage()"><i class="fa-solid fa-download"></i> تنزيل النتيجة للصورة (للمقارنة في المعرض)</button>
+            </div>
+        </div>
+
+        <!-- جدول التمارين الأسبوعي -->
+        <div class="schedule-section">
+            <h2>جدول التمارين الأسبوعي - بيرفكت جيم</h2>
+            <div class="schedule-grid">
+                <div class="schedule-card">
+                    <h4>السبت</h4>
+                    <p>صدر + تراي</p>
+                </div>
+                <div class="schedule-card">
+                    <h4>الأحد</h4>
+                    <p>ظهر + باي + سواعد</p>
+                </div>
+                <div class="schedule-card">
+                    <h4>الإثنين</h4>
+                    <p>أرجل (رجلين)</p>
+                </div>
+                <div class="schedule-card">
+                    <h4>الثلاثاء</h4>
+                    <p>أكتاف + معدة</p>
+                </div>
+                <div class="schedule-card">
+                    <h4>الأربعاء</h4>
+                    <p>راحة أو كارديو خفيف</p>
+                </div>
+                <div class="schedule-card">
+                    <h4>الخميس</h4>
+                    <p>علوي شامل + سواعد</p>
+                </div>
+                <div class="schedule-card">
+                    <h4>الجمعة</h4>
+                    <p>راحة تامة</p>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="section-title">تفاصيل التمارين والشرح مع الصور المخصصة</h2>
+
+        <div class="exercises-grid">
+            <!-- 1. الظهر -->
+            <div class="exercise-card">
+                <div class="card-img-container">
+                    <img src="https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?auto=format&fit=crop&w=600&q=80" alt="تمرين الظهر">
+                </div>
+                <div class="card-content">
+                    <div class="card-header">
+                        <i class="fa-solid fa-arrows-split-up-and-left"></i>
+                        <div class="card-title">
+                            <h3>سحب عالي (Lat Pulldown)</h3>
+                            <span>تمارين الظهر</span>
+                        </div>
+                    </div>
+                    <div class="exercise-body">
+                        <p><strong>الشرح:</strong> اجلس واجذب البار لأسفل باتجاه الصدر مع إرجاع الظهر للخلف قليلاً، والتركيز على عصر عضلات الظهر الجانبية.</p>
+                    </div>
+                    <div class="exercise-footer">
+                        <span class="badge">متوسط</span>
+                        <span><i class="fa-solid fa-rotate-right"></i> 3 × 12 تكرار</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. الكتاف (تم تحديث الصورة بصورة صحيحة وواضحة لتمارين الكتف بالدامبلز) -->
+            <div class="exercise-card">
+                <div class="card-img-container">
+                    <img src="https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?auto=format&fit=crop&w=600&q=80" alt="تمارين الكتاف">
+                </div>
+                <div class="card-content">
+                    <div class="card-header">
+                        <i class="fa-solid fa-dumbbell"></i>
+                        <div class="card-title">
+                            <h3>رفرفة جانبي (Side Lateral Raises)</h3>
+                            <span>تمارين الكتاف</span>
+                        </div>
+                    </div>
+                    <div class="exercise-body">
+                        <p><strong>الشرح:</strong> قف باعتدال وارفع الدامبلز للجانبين حتى مستوى الكتفين ببطء، مع ثني المرفقين بدرجة بسيطة جداً.</p>
+                    </div>
+                    <div class="exercise-footer">
+                        <span class="badge">سهل</span>
+                        <span><i class="fa-solid fa-rotate-right"></i> 3 × 15 تكرار</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. الرجلين -->
+            <div class="exercise-card">
+                <div class="card-img-container">
+                    <img src="https://images.unsplash.com/photo-1574680096145-d05b474e2155?auto=format&fit=crop&w=600&q=80" alt="تمارين الرجلين">
+                </div>
+                <div class="card-content">
+                    <div class="card-header">
+                        <i class="fa-solid fa-child-reaching"></i>
+                        <div class="card-title">
+                            <h3>السكوات بالوزن (Barbell Squat)</h3>
+                            <span>تمارين الرجلين</span>
+                        </div>
+                    </div>
+                    <div class="exercise-body">
+                        <p><strong>الشرح:</strong> ثبت البار على ترابيس الظهر، انزل للأسفل مع ثني الركب ودفع المؤخرة للخلف، ثم اصعد بقوة بالاعتماد على الفخذين.</p>
+                    </div>
+                    <div class="exercise-footer">
+                        <span class="badge">متقدم</span>
+                        <span><i class="fa-solid fa-rotate-right"></i> 4 × 10 تكرار</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. الباي -->
+            <div class="exercise-card">
+                <div class="card-img-container">
+                    <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=600&q=80" alt="تمارين الباي">
+                </div>
+                <div class="card-content">
+                    <div class="card-header">
+                        <i class="fa-solid fa-hand-fist"></i>
+                        <div class="card-title">
+                            <h3>تبديل دمبل بايسبس (Bicep Curls)</h3>
+                            <span>تمارين الباي</span>
+                        </div>
+                    </div>
+                    <div class="exercise-body">
+                        <p><strong>الشرح:</strong> احمل الدامبلز وثبت مرفقك بجانب جسمك، ارفع الوزن لأعلى مع لف الكف قليلاً لزيادة تركيز الانقباض في عضلة الباي.</p>
+                    </div>
+                    <div class="exercise-footer">
+                        <span class="badge">سهل</span>
+                        <span><i class="fa-solid fa-rotate-right"></i> 3 × 12 تكرار</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. التراي -->
+            <div class="exercise-card">
+                <div class="card-img-container">
+                    <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=600&q=80" alt="تمارين التراي">
+                </div>
+                <div class="card-content">
+                    <div class="card-header">
+                        <i class="fa-solid fa-arrow-down-long"></i>
+                        <div class="card-title">
+                            <h3>دفع كابل ترايسبس (Tricep Pushdown)</h3>
+                            <span>تمارين التراي</span>
+                        </div>
+                    </div>
+                    <div class="exercise-body">
+                        <p><strong>الشرح:</strong> قف أمام الكابل واجذب المقبض لأسفل مع ثبات المرفقين جانب جسمك تماماً، ثم افتح الذراع بالكامل للأسفل.</p>
+                    </div>
+                    <div class="exercise-footer">
+                        <span class="badge">متوسط</span>
+                        <span><i class="fa-solid fa-rotate-right"></i> 3 × 12 تكرار</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. السواعد -->
+            <div class="exercise-card">
+                <div class="card-img-container">
+                    <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=600&q=80" alt="تمارين السواعد">
+                </div>
+                <div class="card-content">
+                    <div class="card-header">
+                        <i class="fa-solid fa-hand"></i>
+                        <div class="card-title">
+                            <h3>تمارين الساعد بالبار (Wrist Curls)</h3>
+                            <span>تمارين السواعد</span>
+                        </div>
+                    </div>
+                    <div class="exercise-body">
+                        <p><strong>الشرح:</strong> اجلس واجعل ساعدك مستنداً على ركبتيك، وامسك بار خفيف واطوِ معصمك لأعلى ولأسفل لتقوية عضلات الساعد.</p>
+                    </div>
+                    <div class="exercise-footer">
+                        <span class="badge">سهل</span>
+                        <span><i class="fa-solid fa-rotate-right"></i> 3 × 15 تكرار</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 7. المعدة -->
+            <div class="exercise-card">
+                <div class="card-img-container">
+                    <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=600&q=80" alt="تمارين المعدة">
+                </div>
+                <div class="card-content">
+                    <div class="card-header">
+                        <i class="fa-solid fa-stopwatch"></i>
+                        <div class="card-title">
+                            <h3>تمرين طحن البطن (Crunches)</h3>
+                            <span>تمارين المعدة</span>
+                        </div>
+                    </div>
+                    <div class="exercise-body">
+                        <p><strong>الشرح:</strong> استلقِ على ظهرك واثنِ ركبتيك، ارفع كتفيك عن الأرض باستخدام عضلات البطن فقط دون الشد على الرقبة.</p>
+                    </div>
+                    <div class="exercise-footer">
+                        <span class="badge">متوسط</span>
+                        <span><i class="fa-solid fa-clock"></i> 3 × 20 تكرار</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- كود الجافاسكريبت للحساب والتاريخ وتنزيل الصورة -->
+    <script>
+        // عرض التاريخ واليوم الحالي تلقائياً
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        const today = new Date();
+        document.getElementById('current-date').innerText = today.toLocaleDateString('ar-EG', options);
+
+        // دالة حساب السعرات الحرارية
+        function calculateCalories() {
+            const weight = parseFloat(document.getElementById('weight').value);
+            const height = parseFloat(document.getElementById('height').value);
+            const age = parseFloat(document.getElementById('age').value);
+            const activity = parseFloat(document.getElementById('activity').value);
+
+            if (!weight || !height || !age) {
+                alert('الرجاء إدخال الوزن، الطول، والعمر بشكل صحيح!');
+                return;
+            }
+
+            const bmr = (10 * weight) + (6.25 * height) - (5 * age) + 5;
+            const tdee = Math.round(bmr * activity);
+
+            document.getElementById('maintenanceCalories').innerText = `للحفاظ على الوزن: ${tdee} سعرة حرارية`;
+            document.getElementById('lossCalories').innerText = `للتخسيس (تنشيف): ${tdee - 500} سعرة حرارية`;
+            document.getElementById('gainCalories').innerText = `لزيادة الوزن (تضخم): ${tdee + 500} سعرة حرارية`;
+
+            document.getElementById('resultBox').style.display = 'block';
+        }
+
+        // دالة لتنزيل نتيجة السعرات كصورة لحفظها في المعرض
+        function saveResultAsImage() {
+            const resultElement = document.getElementById('resultBox');
+            html2canvas(resultElement).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'نتائج_بيرفكت_جيم_لسعراتي.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+        }
+    </script>
+</body>
+</html>

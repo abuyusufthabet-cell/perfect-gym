@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بيرفكت جيم | Perfect Gym - دليلك الشامل للياقة والتغذية</title>
+    <!-- استيراد خط عربي جميل من Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body {
+            background-color: #121212;
+            color: #f1f1f1;
+            line-height: 1.6;
+        }
+
+        /* شريط التنقل العلوي */
+        header {
+            background-color: #1f1f1f;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #ff5722;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 900;
+            color: #ff5722;
+        }
+
+        .logo span {
+            color: #fff;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 25px;
+        }
+
+        nav ul li a {
+            color: #f1f1f1;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #ff5722;
+        }
+
+        /* قسم الواجهة الرئيسية (Hero Section) */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 900;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .hero h1 span {
+            color: #ff5722;
+        }
+
+        .hero p {
+            font-size: 18px;
+            max-width: 600px;
+            margin-bottom: 30px;
+            color: #ccc;
+        }
+
+        .btn {
+            background-color: #ff5722;
+            color: #white;
+            padding: 12px 30px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #e64a19;
+            transform: translateY(-2px);
+        }
+
+        /* أقسام الموقع السريعة (Cards) */
+        .features {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            padding: 80px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            background-color: #1f1f1f;
+            border-radius: 10px;
+            padding: 30px;
+            width: 350px;
+            text-align: center;
+            border-top: 4px solid #ff5722;
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+        }
+
+        .card h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .card p {
+            color: #aaa;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .card a {
+            color: #ff5722;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        /* تذييل الصفحة (Footer) */
+        footer {
+            background-color: #191919;
+            text-align: center;
+            padding: 20px;
+            color: #777;
+            border-top: 1px solid #333;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- شريط التنقل -->
+    <header>
+        <div class="logo">PERFECT <span>GYM</span></div>
+        <nav>
+            <ul>
+                <li><a href="#">الرئيسية</a></li>
+                <li><a href="#">التمارين</a></li>
+                <li><a href="#">التغذية</a></li>
+                <li><a href="#">حاسبة السعرات</a></li>
+                <li><a href="#">اتصل بنا</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- الواجهة الرئيسية -->
+    <section class="hero">
+        <h1>ابدأ رحلتك الرياضية مع <span>بيرفكت جيم</span></h1>
+        <p>دليلك الأول لفهم التمارين الصحيحة، تجنب الإصابات، وبناء جسم صحي وقوي بطريقة علمية مبسطة.</p>
+        <a href="#" class="btn">استكشف التمارين الآن</a>
+    </section>
+
+    <!-- الأقسام الرئيسية -->
+    <section class="features">
+        <div class="card">
+            <h3>دليل التمارين الصحيحة</h3>
+            <p>تعلم الأداء الصحيح لكل تمريرة عضلية مع تفاصيل الأخطاء الشائعة لتجنب الإصابات نهائياً.</p>
+            <a href="#">تصفح التمارين &larr;</a>
+        </div>
+        <div class="card">
+            <h3>التغذية والأكل الصحي</h3>
+            <p>أفضل الجداول والوجبات الغذائية المصممة خصيصاً لمساعدتك على الضخامة العضلية أو التنشيف.</p>
+            <a href="#">اقرأ المزيد &larr;</a>
+        </div>
+        <div class="card">
+            <h3>حاسبة السعرات الذكية</h3>
+            <p>احسب سعراتك الحرارية اليومية واحتياجك من البروتين بدقة بناءً على هدفك ووزنك.</p>
+            <a href="#">جرب الحاسبة &larr;</a>
+        </div>
+    </section>
+
+    <!-- تذييل الصفحة -->
+    <footer>
+        <p>جميع الحقوق محفوظة &copy; 2026 - بيرفكت جيم (Perfect Gym)</p>
+    </footer>
+
+</body>
+</html>
